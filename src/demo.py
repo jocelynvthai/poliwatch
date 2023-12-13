@@ -301,6 +301,7 @@ def trading_activity_func(data):
         display_df.columns = ["Congress", "Disclosure Date", "Asset Description", "Industry", "Sector", "Type", "Amount", "State", "PTR Link"]
         st.data_editor(display_df, column_config={"PTR Link": st.column_config.LinkColumn()}, hide_index=True)
 
+        st.dataframe(filtered_df)
         politician_id = filtered_df['member_id'].values[0]
         politician_congress = filtered_df['congress'].values[0]
         transaction_uuid = filtered_df['uuid'].values[0]
