@@ -4,6 +4,7 @@ from helper import magic
 if 'start' not in st.session_state:
     st.session_state['start'] = False
 
+
 start = st.button("Let's get started")
 
 if start or st.session_state['start']:
