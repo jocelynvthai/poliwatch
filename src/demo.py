@@ -160,7 +160,7 @@ def relevant_info(data, politician_selection, politician_id, politician_congress
             if len(politician_committees) == 0:
                 st.write(f'<div style="margin-left: 20px; color: #3366ff;"><em> no relevant committee assignments</em></div> <br>', unsafe_allow_html=True)
             else:
-                politician_committees['clean_embeddings'] = politician_committees['embedding'].apply(lambda x: ast.literal_eval(clean_array_string(x)))
+                politician_committees.loc[:, 'clean_embeddings'] = politician_committees['embedding'].apply(lambda x: ast.literal_eval(clean_array_string(x)))
                 committee_hearings_emb_matrix = np.vstack(politician_committees['clean_embeddings'].values)
                 politician_committees['similarity'] = cosine_similarity(committee_hearings_emb_matrix,transaction_emb_matrix)
                 politician_committees_df = politician_committees[['committee_name', 'similarity']].sort_values(by=['similarity'], ascending=False)
