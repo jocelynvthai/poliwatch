@@ -39,16 +39,16 @@ def clean_array_string(array_string):
 @st.cache_data
 def load_data():
     bucket = s3.Bucket('mids-capstone')
-    transactions_obj = bucket.Object('demo_data/transactions_final.csv').get()
-    committee_assignments_obj = bucket.Object('demo_data/committee_assignments_final.csv').get()
-    subcommittee_assignments_obj = bucket.Object('demo_data/subcommittee_assignments_final.csv').get()
-    committees_obj = bucket.Object('committees/committees_final.csv').get()
-    subcommittees_obj = bucket.Object('subcommittees/subcommittees_final.csv').get()
-    bills_obj = bucket.Object('demo_data/bills_final.csv').get()
-    committee_hearings_obj = bucket.Object('demo_data/committee_hearings_final.csv').get()
-    travel_obj = bucket.Object('demo_data/travel_final.csv').get()
-    related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get()
-    member_statements_obj = bucket.Object('demo_data/member_statements_final.csv').get()
+    transactions_obj = bucket.Object('transactions/transactions.csv').get()
+    committee_assignments_obj = bucket.Object('assignments/committee_assignments_of_interest.csv').get()
+    subcommittee_assignments_obj = bucket.Object('assignments/subcommittee_assignments_of_interest.csv').get()
+    committees_obj = bucket.Object('committees/committees.csv').get()
+    subcommittees_obj = bucket.Object('subcommittees/subcommittees.csv').get()
+    bills_obj = bucket.Object('bills/member_bills.csv').get()
+    committee_hearings_obj = bucket.Object('hearings/committee_hearings.csv').get()
+    travel_obj = bucket.Object('travel/private_travel.csv').get()
+    related_bills_obj = bucket.Object('bills/related_bills.csv').get()
+    member_statements_obj = bucket.Object('statements/member_statements.csv').get()
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
@@ -301,7 +301,7 @@ def trading_activity_func(data):
         display_df.columns = ["Congress", "Disclosure Date", "Asset Description", "Industry", "Sector", "Type", "Amount", "State", "PTR Link"]
         st.data_editor(display_df, column_config={"PTR Link": st.column_config.LinkColumn()}, hide_index=True)
 
-        politician_id = filtered_df['id'].values[0]
+        politician_id = filtered_df['member_id'].values[0]
         politician_congress = filtered_df['congress'].values[0]
         transaction_uuid = filtered_df['uuid'].values[0]
 
