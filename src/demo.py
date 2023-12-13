@@ -8,10 +8,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
 from PIL import Image, ImageFile
 import streamlit_book as stb
-from utils import set_db_connection
+import boto3
 
 # Set DB Connection
-s3 = set_db_connection()
+s3 = boto3.resource(
+        service_name=st.secrets["service_name"],
+        region_name=st.secrets["region_name"],
+        aws_access_key_id=st.secrets["aws_access_key_id"],
+        aws_secret_access_key=st.secrets["aws_secret_access_key"]
+    )
 
 st.set_page_config(
     layout="wide",  # Use "wide" layout
