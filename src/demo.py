@@ -18,6 +18,7 @@ s3 = boto3.resource(
         aws_secret_access_key=st.secrets["aws_secret_access_key"]
     )
 
+
 st.set_page_config(
     layout="wide",  # Use "wide" layout
     initial_sidebar_state="auto",  # Automatically determine the initial state of the sidebar
@@ -42,6 +43,25 @@ def clean_array_string(array_string):
 
 
 @st.cache_data
+# def load_data():
+#     transactions = pd.read_csv('data/transactions_final.csv')
+#     committee_assignments = pd.read_csv('data/committee_assignments_final.csv')
+#     subcommittee_assignments = pd.read_csv('data/subcommittee_assignments_final.csv')
+#     statements = pd.read_csv('data/member_statements_final.csv')
+#     travel = pd.read_csv('data/travel_final.csv')
+#     related_bills = pd.read_csv('data/related_bills_final.csv')
+#     bills = pd.read_csv('data/bills_final.csv')
+#     hearings = pd.read_csv('data/committee_hearings_final.csv')
+
+#     return {'transactions': transactions,
+#             'committee_assignments': committee_assignments,
+#             'subcommittee_assignments': subcommittee_assignments,
+#             'statements': statements,
+#             'travel': travel,
+#             'related_bills': related_bills,
+#             'bills': bills,
+#             'hearings': hearings
+#             }
 def load_data():
     bucket = s3.Bucket('mids-capstone') 
     transactions_obj = bucket.Object('demo_data/transactions_final.csv').get()
@@ -53,7 +73,7 @@ def load_data():
     committee_hearings_obj = bucket.Object('demo_data/committee_hearings_final.csv').get()
     travel_obj = bucket.Object('demo_data/travel_final.csv').get()
     related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get()
-    member_statements_obj = bucket.Object('demo_data/member_statements_final.csv').get()
+    # member_statements_obj = bucket.Object('demo_data/member_statements_final.csv').get()
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
@@ -64,8 +84,8 @@ def load_data():
         'bills': pd.read_csv(bills_obj['Body']),
         'hearings': pd.read_csv(committee_hearings_obj['Body']),
         'travel': pd.read_csv(travel_obj['Body']),
-        'related_bills': pd.read_csv(related_bills_obj['Body']),
-        'statements': pd.read_csv(member_statements_obj['Body'])
+        'related_bills': pd.read_csv(related_bills_obj['Body'])
+        # 'statements': pd.read_csv(member_statements_obj['Body'])
     }
 
 
