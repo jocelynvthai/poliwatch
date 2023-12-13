@@ -75,7 +75,6 @@ def load_data():
     related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get()
     member_statements_obj_1 = bucket.Object('demo_data/member_statements_final_1.csv').get()
     member_statements_obj_2 = bucket.Object('demo_data/member_statements_final_2.csv').get()
-    print(bills_obj)
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
@@ -86,7 +85,7 @@ def load_data():
         'bills': pd.read_csv(bills_obj['Body']),
         'hearings': pd.read_csv(committee_hearings_obj['Body']),
         'travel': pd.read_csv(travel_obj['Body']),
-        'related_bills': pd.read_csv(related_bills_obj[0]['Body']),
+        'related_bills': pd.read_csv(related_bills_obj['Body']),
         'statements': pd.concat([pd.read_csv(member_statements_obj_1['Body']), pd.read_csv(member_statements_obj_2['Body'])], ignore_index=True)
     }
 
