@@ -1,5 +1,5 @@
 import streamlit as st
-from code import magic
+from helper import magic
 
 st.header("Welcome to...")
 st.subheader("Identifying Conflicts of Interest in the Securities Transactions of U.S. Congressional Members")
