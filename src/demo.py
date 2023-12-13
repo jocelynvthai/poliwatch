@@ -10,14 +10,6 @@ from PIL import Image, ImageFile
 import streamlit_book as stb
 import boto3
 
-# Set DB Connection
-s3 = boto3.resource(
-        service_name='s3',
-        region_name='us-east-1',
-        aws_access_key_id='AKIAUBVWHVMYZ6DB3MWH',
-        aws_secret_access_key='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'
-    )
-
 
 st.set_page_config(
     layout="wide",  # Use "wide" layout
@@ -43,7 +35,13 @@ def clean_array_string(array_string):
 
 
 @st.cache_data
-def load_data():
+def load_data(allow_output_mutation=True):
+    # Set DB Connection
+    s3 = boto3.resource(
+        service_name=st.secrets["service_name"],
+        region_name=st.secrets["region_name"],
+        aws_access_key_id=st.secrets["aws_access_key_id"],
+        aws_secret_access_key=st.secrets["aws_secret_access_key"])
     bucket = s3.Bucket('mids-capstone') 
     transactions_obj = bucket.Object('demo_data/transactions_final.csv').get()
     committee_assignments_obj = bucket.Object('demo_data/committee_assignments_final.csv').get()
