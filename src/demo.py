@@ -164,7 +164,7 @@ def relevant_info(data, politician_selection, politician_id, politician_congress
     committee_hearings = data['hearings']
     travel = data['travel']
     related_bills = data['related_bills']
-    member_statements = data['statements']
+    # member_statements = data['statements']
     transaction = data['transactions']
 
     st.subheader('')
@@ -174,7 +174,7 @@ def relevant_info(data, politician_selection, politician_id, politician_congress
     transaction_embedding = ast.literal_eval(clean_array_string(transaction_embedding))
     transaction_emb_matrix = np.array(transaction_embedding).reshape(1, -1)
 
-    assignments_hearings_tab, bills_tab, travel_statements_tab = st.tabs(["Assignments & Hearings", "Bills", "Travel & Statements"])
+    assignments_hearings_tab, bills_tab, travel_statements_tab = st.tabs(["Assignments & Hearings", "Bills", "Travel"])
     similarity = 'Cosine similarity correlation score between chosen **transaction** and **congressional activity**'
     with assignments_hearings_tab:
         col1,col2 = st.columns([0.35, 0.65])
@@ -261,20 +261,20 @@ def relevant_info(data, politician_selection, politician_id, politician_congress
             filtered_travel_df.columns = ['Departure Date', 'Destination', 'Sponsor', 'Similarity']
             st.data_editor(filtered_travel_df, use_container_width=True, hide_index=True, column_config={"Similarity": st.column_config.NumberColumn(help=similarity)})
 
-        # Politician Statements
-        st.write(f'**{politician_selection}\'s Statements:**')
-        filtered_statements = member_statements[(member_statements['member_id'] == politician_id) & (member_statements['congress'] == politician_congress) &(member_statements['date'] <= transaction_date)]
-        if len(filtered_statements) == 0:
-            st.write(f'<div style="margin-left: 20px; color: #3366ff;"><em> no relevant statements</em></div> <br>', unsafe_allow_html=True)
-        else:
-            statement_emb_matrix = np.vstack(filtered_statements['embedding'].apply(lambda x: ast.literal_eval(clean_array_string(x))).values)
-            transaction_emb_matrix = np.array(transaction_embedding).reshape(1,-1)
-            filtered_statements['similarity'] = cosine_similarity(statement_emb_matrix,transaction_emb_matrix)
-            filtered_statements_df = filtered_statements[['title', 'date', 'type', 'similarity','url']].sort_values(by=['similarity'], ascending=False)
-            filtered_statements_df.columns = ['Title', 'Date', 'Type', 'Similarity','URL']
-            st.data_editor(filtered_statements_df, use_container_width=True, hide_index=True, 
-                           column_config={"Similarity": st.column_config.NumberColumn(help=similarity), 
-                                          "URL": st.column_config.LinkColumn()})
+        # # Politician Statements
+        # st.write(f'**{politician_selection}\'s Statements:**')
+        # filtered_statements = member_statements[(member_statements['member_id'] == politician_id) & (member_statements['congress'] == politician_congress) &(member_statements['date'] <= transaction_date)]
+        # if len(filtered_statements) == 0:
+        #     st.write(f'<div style="margin-left: 20px; color: #3366ff;"><em> no relevant statements</em></div> <br>', unsafe_allow_html=True)
+        # else:
+        #     statement_emb_matrix = np.vstack(filtered_statements['embedding'].apply(lambda x: ast.literal_eval(clean_array_string(x))).values)
+        #     transaction_emb_matrix = np.array(transaction_embedding).reshape(1,-1)
+        #     filtered_statements['similarity'] = cosine_similarity(statement_emb_matrix,transaction_emb_matrix)
+        #     filtered_statements_df = filtered_statements[['title', 'date', 'type', 'similarity','url']].sort_values(by=['similarity'], ascending=False)
+        #     filtered_statements_df.columns = ['Title', 'Date', 'Type', 'Similarity','URL']
+        #     st.data_editor(filtered_statements_df, use_container_width=True, hide_index=True, 
+        #                    column_config={"Similarity": st.column_config.NumberColumn(help=similarity), 
+        #                                   "URL": st.column_config.LinkColumn()})
 
 
 def trading_activity_func(data):
@@ -337,9 +337,9 @@ def trading_activity_func(data):
 
 def interactive_data_explore_func(data):
     st.markdown(f"<h1 style='font-size: 20px;'>Explore our first-of-its-kind congressional activity golden data set</h1>", unsafe_allow_html=True)
-    option = st.selectbox('Select Dataset', ('Transactions', 'Committee Assignments', 'Subcommittee Assignments', 'Statements', 'Travel', 'Related Bills', 'Bills', 'Hearings'))
+    option = st.selectbox('Select Dataset', ('Transactions', 'Committee Assignments', 'Subcommittee Assignments', 'Travel', 'Related Bills', 'Bills', 'Hearings'))
     dataset_name = {'Transactions': 'transactions', 'Committee Assignments': 'committee_assignments', 
-               'Subcommittee Assignments': 'subcommittee_assignments','Statements': 'statements', 'Travel': 'travel',
+               'Subcommittee Assignments': 'subcommittee_assignments', 'Travel': 'travel',
                 'Related Bills': 'related_bills', 'Bills': 'bills', 'Hearings': 'hearings'}
     selected_dataset = dataset_name[option]
     dataset = data[selected_dataset]
