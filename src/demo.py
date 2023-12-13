@@ -65,6 +65,7 @@ def clean_array_string(array_string):
 def load_data():
     bucket = s3.Bucket('mids-capstone') 
     transactions_obj = bucket.Object('demo_data/transactions_final.csv').get()
+    transactions_obj_2 = bucket.Object('demo_data/transactions_final.csv').get()
     committee_assignments_obj = bucket.Object('demo_data/committee_assignments_final.csv').get()
     subcommittee_assignments_obj = bucket.Object('demo_data/subcommittee_assignments_final.csv').get()
     committees_obj = bucket.Object('committees/committees.csv').get()
@@ -77,6 +78,7 @@ def load_data():
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
+        'transactions': pd.read_csv(transactions_obj_2['Body']),  
         'committee_assignments': pd.read_csv(committee_assignments_obj['Body']),
         'subcommittee_assignments': pd.read_csv(subcommittee_assignments_obj['Body']),
         'committees': pd.read_csv(committees_obj['Body']),
