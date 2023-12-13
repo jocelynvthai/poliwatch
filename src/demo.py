@@ -13,6 +13,20 @@ from utils import set_db_connection
 # Set DB Connection
 s3 = set_db_connection()
 
+st.set_page_config(
+    layout="wide",  # Use "wide" layout
+    initial_sidebar_state="auto",  # Automatically determine the initial state of the sidebar
+)
+
+if 'submitted' not in st.session_state:
+    st.session_state['submitted'] = False
+if 'politician' not in st.session_state:
+    st.session_state['politician'] = ''
+if 'ticker' not in st.session_state:
+    st.session_state['ticker'] = ''
+if 'date' not in st.session_state:
+    st.session_state['date'] = ''
+
 
 def clean_array_string(array_string):
     # Replace newlines and multiple spaces with a single space
@@ -21,27 +35,6 @@ def clean_array_string(array_string):
     cleaned_string_with_commas = re.sub(r'([-\d.e]+)(?=\s)', r'\1,', cleaned_string)
     return cleaned_string_with_commas
 
-
-# @st.cache_data
-# def load_data():
-#     transactions = pd.read_csv('data/transactions_final.csv')
-#     committee_assignments = pd.read_csv('data/committee_assignments_final.csv')
-#     subcommittee_assignments = pd.read_csv('data/subcommittee_assignments_final.csv')
-#     statements = pd.read_csv('data/member_statements_final.csv')
-#     travel = pd.read_csv('data/travel_final.csv')
-#     related_bills = pd.read_csv('data/related_bills_final.csv')
-#     bills = pd.read_csv('data/bills_final.csv')
-#     hearings = pd.read_csv('data/committee_hearings_final.csv')
-
-#     return {'transactions': transactions,
-#             'committee_assignments': committee_assignments,
-#             'subcommittee_assignments': subcommittee_assignments,
-#             'statements': statements,
-#             'travel': travel,
-#             'related_bills': related_bills,
-#             'bills': bills,
-#             'hearings': hearings
-#             }
 
 @st.cache_data
 def load_data():
@@ -69,20 +62,6 @@ def load_data():
         'related_bills': pd.read_csv(related_bills_obj['Body']),
         'statements': pd.read_csv(member_statements_obj['Body'])
     }
-
-st.set_page_config(
-    layout="wide",  # Use "wide" layout
-    initial_sidebar_state="auto",  # Automatically determine the initial state of the sidebar
-)
-
-if 'submitted' not in st.session_state:
-    st.session_state['submitted'] = False
-if 'politician' not in st.session_state:
-    st.session_state['politician'] = ''
-if 'ticker' not in st.session_state:
-    st.session_state['ticker'] = ''
-if 'date' not in st.session_state:
-    st.session_state['date'] = ''
 
 
 def politician_graph(placeholder1_title, placeholder1_body, placeholder2_title, placeholder2_body, transactions, politician):
@@ -273,7 +252,7 @@ def relevant_info(data, politician_selection, politician_id, politician_congress
                                           "URL": st.column_config.LinkColumn()})
 
 
-def transactions_selection(data):
+def trading_activity_func(data):
     transactions = data['transactions']
 
     politician, ticker, date, submit = st.columns([0.29, 0.29, 0.29, 0.13])
@@ -331,18 +310,7 @@ def transactions_selection(data):
                 relevant_info(data, politician_selection, politician_id, politician_congress, transaction_uuid)
 
 
-def about(data):
-    stb.set_chapter_config(path='src/book', button="top", button_previous="←",
-                        button_next="→",button_refresh="Refresh", display_page_info=False)
-
-    
-    # st.markdown(f"<h1 style='font-size: 20px;'>Entity Relationship Diagram (ERD)</h1>", unsafe_allow_html=True)
-    # url = "https://drawsql.app/teams/jocelyn-thai/diagrams/poliwatch/embed"
-    # iframe_code = f'<iframe src="{url}" width="100%" height="500" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>'
-    # st.markdown(iframe_code, unsafe_allow_html=True)
-
-
-def pygwalker(data):
+def interactive_data_explore_func(data):
     option = st.selectbox('Select Dataset', ('Transactions', 'Committee Assignments', 'Subcommittee Assignments', 'Statements', 'Travel', 'Related Bills', 'Bills', 'Hearings'))
     dataset_name = {'Transactions': 'transactions', 'Committee Assignments': 'committee_assignments', 
                'Subcommittee Assignments': 'subcommittee_assignments','Statements': 'statements', 'Travel': 'travel',
@@ -364,6 +332,17 @@ def pygwalker(data):
     
     # Render your data exploration interface. Developers can use it to build charts by drag and drop.
     renderer.render_explore()
+
+
+def about_func(data):
+    stb.set_chapter_config(path='src/book', button="top", button_previous="←",
+                        button_next="→",button_refresh="Refresh", display_page_info=False)
+
+    
+    # st.markdown(f"<h1 style='font-size: 20px;'>Entity Relationship Diagram (ERD)</h1>", unsafe_allow_html=True)
+    # url = "https://drawsql.app/teams/jocelyn-thai/diagrams/poliwatch/embed"
+    # iframe_code = f'<iframe src="{url}" width="100%" height="500" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>'
+    # st.markdown(iframe_code, unsafe_allow_html=True)
    
 
 
@@ -389,11 +368,11 @@ def main():
     
     about_tab, interactive_data_explore_tab, trading_activity_tab = st.tabs(["About", "Interactive Data Explore", "Trading Activity"])
     with about_tab:
-        about(data)
+        about_func(data)
     with interactive_data_explore_tab:
-        pygwalker(data)
+        interactive_data_explore_func(data)
     with trading_activity_tab:
-        transactions_selection(data)
+        trading_activity_func(data)
 
 
 if __name__ == "__main__":
