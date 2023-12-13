@@ -86,7 +86,7 @@ def load_data():
         'bills': pd.read_csv(bills_obj['Body']),
         'hearings': pd.read_csv(committee_hearings_obj['Body']),
         'travel': pd.read_csv(travel_obj['Body']),
-        'related_bills': pd.read_csv(related_bills_obj['Body']),
+        'related_bills': pd.read_csv(related_bills_obj[0]['Body']),
         'statements': pd.concat([pd.read_csv(member_statements_obj_1['Body']), pd.read_csv(member_statements_obj_2['Body'])], ignore_index=True)
     }
 
