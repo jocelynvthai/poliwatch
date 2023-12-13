@@ -311,7 +311,7 @@ def trading_activity_func(data):
 
 
 def interactive_data_explore_func(data):
-    st.markdown(""":orange[first-of-its-kind congressional activity golden data set]""")
+    st.subheader(""":blue[Explore our first-of-its-kind congressional activity golden data set]""")
     option = st.selectbox('Select Dataset', ('Transactions', 'Committee Assignments', 'Subcommittee Assignments', 'Statements', 'Travel', 'Related Bills', 'Bills', 'Hearings'))
     dataset_name = {'Transactions': 'transactions', 'Committee Assignments': 'committee_assignments', 
                'Subcommittee Assignments': 'subcommittee_assignments','Statements': 'statements', 'Travel': 'travel',
