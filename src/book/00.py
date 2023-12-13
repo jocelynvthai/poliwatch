@@ -4,7 +4,6 @@ from helper import magic
 if 'start' not in st.session_state:
     st.session_state['start'] = False
 
-@st.cache_data
 def main():
     start = st.button("Let's get started")
 
