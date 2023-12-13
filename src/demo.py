@@ -12,10 +12,10 @@ import boto3
 
 # Set DB Connection
 s3 = boto3.resource(
-        service_name=st.secrets["service_name"],
-        region_name=st.secrets["region_name"],
-        aws_access_key_id=st.secrets["aws_access_key_id"],
-        aws_secret_access_key=st.secrets["aws_secret_access_key"]
+        service_name='s3',
+        region_name='us-east-1',
+        aws_access_key_id='AKIAUBVWHVMYZ6DB3MWH',
+        aws_secret_access_key='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'
     )
 
 
@@ -43,25 +43,6 @@ def clean_array_string(array_string):
 
 
 @st.cache_data
-# def load_data():
-#     transactions = pd.read_csv('data/transactions_final.csv')
-#     committee_assignments = pd.read_csv('data/committee_assignments_final.csv')
-#     subcommittee_assignments = pd.read_csv('data/subcommittee_assignments_final.csv')
-#     statements = pd.read_csv('data/member_statements_final.csv')
-#     travel = pd.read_csv('data/travel_final.csv')
-#     related_bills = pd.read_csv('data/related_bills_final.csv')
-#     bills = pd.read_csv('data/bills_final.csv')
-#     hearings = pd.read_csv('data/committee_hearings_final.csv')
-
-#     return {'transactions': transactions,
-#             'committee_assignments': committee_assignments,
-#             'subcommittee_assignments': subcommittee_assignments,
-#             'statements': statements,
-#             'travel': travel,
-#             'related_bills': related_bills,
-#             'bills': bills,
-#             'hearings': hearings
-#             }
 def load_data():
     bucket = s3.Bucket('mids-capstone') 
     transactions_obj = bucket.Object('demo_data/transactions_final.csv').get()
