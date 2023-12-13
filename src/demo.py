@@ -78,7 +78,6 @@ def load_data():
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
-        'transactions': pd.read_csv(transactions_obj_2['Body']),  
         'committee_assignments': pd.read_csv(committee_assignments_obj['Body']),
         'subcommittee_assignments': pd.read_csv(subcommittee_assignments_obj['Body']),
         'committees': pd.read_csv(committees_obj['Body']),
