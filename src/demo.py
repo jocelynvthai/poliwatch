@@ -87,8 +87,7 @@ def load_data():
         'hearings': pd.read_csv(committee_hearings_obj['Body']),
         'travel': pd.read_csv(travel_obj['Body']),
         'related_bills': pd.read_csv(related_bills_obj['Body']),
-        'statements_1': pd.read_csv(member_statements_obj_1['Body']),
-        'statements_2': pd.read_csv(member_statements_obj_2['Body'])
+        'statements': pd.concat([pd.read_csv(member_statements_obj_1['Body']), pd.read_csv(member_statements_obj_2['Body'])], ignore_index=True)
     }
 
 
@@ -392,7 +391,6 @@ def footer():
 
 def main():
     data = load_data()
-    data['statements'] = pd.concat([data['statements_1'], data['statements_2']], ignore_index=True)
     st.title('PoliWatch :flag-us:')
     st.subheader('U.S. Congressional Securities Transactions')
     
