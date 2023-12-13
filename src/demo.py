@@ -336,7 +336,7 @@ def interactive_data_explore_func(data):
 
 
 def about_func(data):
-    stb.set_chapter_config(path='book', button="top", button_previous="←",
+    stb.set_chapter_config(path='src/book', button="top", button_previous="←",
                         button_next="→",button_refresh="Refresh", display_page_info=False)
 
     
