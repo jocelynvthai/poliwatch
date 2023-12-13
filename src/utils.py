@@ -6,8 +6,8 @@ def set_db_connection():
     s3 = boto3.resource(
         service_name='s3',
         region_name='us-east-1',
-        aws_access_key_id='AKIA2JYPH33QU6WTSDR5',
-        aws_secret_access_key='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'
+        aws_access_key_id='AKIA2JYPH33Q4KP3JE3Y',
+        aws_secret_access_key='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'
     )
 
     return s3
