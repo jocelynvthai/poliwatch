@@ -75,6 +75,7 @@ def load_data():
     related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get(),
     member_statements_obj_1 = bucket.Object('demo_data/member_statements_final_1.csv').get(), 
     member_statements_obj_2 = bucket.Object('demo_data/member_statements_final_2.csv').get()
+    print(bills_obj)
 
     return {
         'transactions': pd.read_csv(transactions_obj['Body']),
