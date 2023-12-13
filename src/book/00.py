@@ -19,7 +19,4 @@ if not st.session_state.do_matrix_effect:
     # Render line by line if first time, otherwise render whole text
     for line in md.split("\n"):
         st.markdown(line, unsafe_allow_html=True)
-        if st.session_state["page_run_count"] == 0:
-            magic.pause(SECS * len(line) / 30) # 30 chars per second
-    if st.session_state["page_run_count"] == 0:
-        magic.pause(1*SECS)
+        magic.pause(1 * len(line) / 30) # 30 chars per second
