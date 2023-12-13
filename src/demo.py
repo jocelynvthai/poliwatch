@@ -72,8 +72,8 @@ def load_data():
     bills_obj = bucket.Object('demo_data/bills_final.csv').get()
     committee_hearings_obj = bucket.Object('demo_data/committee_hearings_final.csv').get()
     travel_obj = bucket.Object('demo_data/travel_final.csv').get()
-    related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get(),
-    member_statements_obj_1 = bucket.Object('demo_data/member_statements_final_1.csv').get(), 
+    related_bills_obj = bucket.Object('demo_data/related_bills_final.csv').get()
+    member_statements_obj_1 = bucket.Object('demo_data/member_statements_final_1.csv').get()
     member_statements_obj_2 = bucket.Object('demo_data/member_statements_final_2.csv').get()
     print(bills_obj)
 
